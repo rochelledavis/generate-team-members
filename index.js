@@ -71,14 +71,14 @@ const employeeQuestions = () => {
         },
     ])
     .then(({name, ID, email, office, add, title }) => {
-        teamArray.push(new Manager(name, ID, email, office, add, title ));
+        teamArray.push(new Manager(office, name, ID, email, add, title ));
         console.log('teamArray = ', teamArray)
         if (add === 'Yes, add an engineer') {
             engineerQuestions();
         } else if (add === 'Yes, add an intern') {
             internQuestions();
         } else {
-            generateHTML(teamArray);
+            writeToFile(teamArray);
         }
     })
 }
@@ -147,14 +147,14 @@ const engineerQuestions = () => {
         },
     ])
     .then(({name, ID, email, github, add, title }) => {
-        teamArray.push(new Engineer(name, ID, email, github, add, title ));
+        teamArray.push(new Engineer(github, name, ID, email, add, title ));
         console.log('teamArray = ', teamArray)
         if (add === 'Yes, add an engineer') {
             engineerQuestions();
         } else if (add === 'Yes, add an intern') {
             internQuestions();
         } else {
-            generateHTML(teamArray);
+            writeToFile(teamArray);
         }
     })
 };
@@ -215,24 +215,27 @@ const internQuestions = () => {
         },
     ])
     .then(({name, ID, email, school, add, title }) => {
-        teamArray.push(new Intern(name, ID, email, school, add, title ));
+        teamArray.push(new Intern(school, name, ID, email, add, title ));
         console.log('teamArray = ', teamArray)
         if (add === 'Yes, add an engineer') {
             engineerQuestions();
         } else if (add === 'Yes, add an intern') {
             internQuestions();
         } else {
-            generateHTML(teamArray);
+            writeToFile(teamArray);
         }
     })
 }
 
-const generateHTML = (teamArrayPlaceholder) => {
-    const html = generateHTML(teamArrayPlaceholder);
-    fs.writeFile('./src/index.html', html, function (err) {
-        if (err) throw err;
+const writeToFile = teamArray => {
+    fs.writeFile('./dist/index.html', teamArray, err => {
+        if (err) {
+            console.log(err);
+            return;
+        } else {
         console.log('Your HTML file has been created!');
-    });
+        }
+    })
 };
 
 employeeQuestions();

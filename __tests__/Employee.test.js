@@ -20,7 +20,7 @@ test("create an email property", () => {
     expect(employee.getEmail()).toEqual(expect.any(String));
 });
 
-test("create an title property", () => {
+test("create an role property", () => {
     const employee = new Employee("rochelle", '123', 'me@me.com', 'Manager');
-    expect(employee.getTitle()).toEqual(expect.any(String));
+    expect(employee.getRole()).toEqual(expect.any(String));
 });

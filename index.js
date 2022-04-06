@@ -9,7 +9,7 @@ const Intern = require('./lib/Intern');
 let teamArray = [];
 
 
-const employeeQuestions = () => {
+const managerQuestions = () => {
     return inquirer.prompt([
         {
             type: 'input',
@@ -67,15 +67,15 @@ const employeeQuestions = () => {
             type: 'list',
             name: 'add',
             message: 'Would you like to add another employee?',
-            choices: ['Yes, add an engineer', 'Yes, add an intern', `No, I'm done adding employees`],
+            choices: ['Engineer', 'Intern', `No, I'm done adding employees`],
         },
     ])
-    .then(({name, ID, email, office, add, title }) => {
-        teamArray.push(new Manager(office, name, ID, email, add, title ));
+    .then(({name, ID, email, office, add}) => {
+        teamArray.push(new Manager(office, name, ID, email, add,));
         console.log('teamArray = ', teamArray)
-        if (add === 'Yes, add an engineer') {
+        if (add === 'Engineer') {
             engineerQuestions();
-        } else if (add === 'Yes, add an intern') {
+        } else if (add === 'Intern') {
             internQuestions();
         } else {
             writeToFile(teamArray);
@@ -143,15 +143,15 @@ const engineerQuestions = () => {
             type: 'list',
             name: 'add',
             message: 'Would you like to add another employee?',
-            choices: ['Yes, add an engineer', 'Yes, add an intern', `No, I'm done adding employees`],
+            choices: ['Engineer', 'Intern', `No, I'm done adding employees`],
         },
     ])
-    .then(({name, ID, email, github, add, title }) => {
-        teamArray.push(new Engineer(github, name, ID, email, add, title ));
+    .then(({name, ID, email, github, add}) => {
+        teamArray.push(new Engineer(github, name, ID, email, add));
         console.log('teamArray = ', teamArray)
-        if (add === 'Yes, add an engineer') {
+        if (add === 'Engineer') {
             engineerQuestions();
-        } else if (add === 'Yes, add an intern') {
+        } else if (add === 'Intern') {
             internQuestions();
         } else {
             writeToFile(teamArray);
@@ -213,13 +213,19 @@ const internQuestions = () => {
                 }
             }
         },
+        {
+            type: 'list',
+            name: 'add',
+            message: 'Would you like to add another employee?',
+            choices: ['Engineer', 'Intern', `No, I'm done adding employees`],
+        },
     ])
-    .then(({name, ID, email, school, add, title }) => {
-        teamArray.push(new Intern(school, name, ID, email, add, title ));
+    .then(({name, ID, email, school, add}) => {
+        teamArray.push(new Intern(school, name, ID, email, add));
         console.log('teamArray = ', teamArray)
-        if (add === 'Yes, add an engineer') {
+        if (add === 'Engineer') {
             engineerQuestions();
-        } else if (add === 'Yes, add an intern') {
+        } else if (add === 'Intern') {
             internQuestions();
         } else {
             writeToFile(teamArray);
@@ -228,7 +234,8 @@ const internQuestions = () => {
 }
 
 const writeToFile = teamArray => {
-    fs.writeFile('./dist/index.html', teamArray, err => {
+
+    fs.writeFile('./dist/index.html', generateTeam(teamArray), err => {
         if (err) {
             console.log(err);
             return;
@@ -238,4 +245,4 @@ const writeToFile = teamArray => {
     })
 };
 
-employeeQuestions();
+managerQuestions();

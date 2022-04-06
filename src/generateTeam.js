@@ -1,18 +1,46 @@
+// function hideOffice(data) {
+//     if (data.office === 'undefined'){
+//         return html` class="is-hidden"` 
+//     } else {
+//         return ''
+//     }
+// }
+
+// function hideGithub(data) {
+//     if (data.github === 'undefined'){
+//         return html` class="is-hidden"` 
+//     } else {
+//         return ''
+//     }
+// };
+
+// function hideSchool(data) {
+//     if (data.school === 'undefined'){
+//         return html` class="is-hidden"` 
+//     } else {
+//         return ''
+//     }
+// }
+
 function generateCard(data) {
     return `
-    <div class="card">
-        <header class="card-header">
-            <p class="card-header-title">
-                ${data.name} <br>
-                ${data.title}
-            </p>
-        </header>
-        <div class="card-content">
-            <p class="id">ID: ${data.ID}</p>
-            <p class="email">Email: ${data.email}</p>
-            <p> Office #: ${data.office}</p>
-            <p> GitHub: ${data.github}</p>
-            <p> School: ${data.school}</p>
+    <div class="columns is-multiline">    
+        <div class="column is-4-desktop">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        ${data.name} <br>
+                        ${data.getRole()}
+                    </p>
+                </header>
+                <div class="card-content">
+                    <p>ID: ${data.ID}</p>
+                    <p>Email: <a href = "mailto:${data.email}">${data.email}</a></p>
+                    <p${hideOffice()}> Office #: ${data.office}</p>
+                    <p${hideGithub()}> GitHub: <a href = "https://github.com/${data.github}">${data.github}</a></p>
+                    <p${hideSchool()}> School: ${data.school}</p>
+                </div>
+            </div>
         </div>
     </div>`
 };
@@ -36,14 +64,12 @@ function generateTeam(data) {
             </div>
         </nav>
         <div class="section">
-            <div class="columns is-multiline">    
-                <div class="column is-4-desktop">
-                    ${generateCard(data)}
-                </div>
-            </div>
+            ${data.map(card => generateCard(card)).join(" ")}
         </div>
     </html>
     `
 };
+
+
 
 module.exports = generateTeam;
